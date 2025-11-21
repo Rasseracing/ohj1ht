@@ -6,23 +6,22 @@ Poista sitten *kaikki* suluilla merkityt kohdat.)
 
 ## Tietoja 
 
-Tekijä: (Etunimi Sukunimi)
+Tekijä: Rasmus Pentti
 
 Työ git-varaston osoite: <https://gitlab.jyu.fi/anlakane/ohj1ht> (*Korvaa* tämä osoite oman git-varastosi osoitteella)
 
-Pelin nimi: (Nimi)
+Pelin nimi: ski park
 
-Pelialusta: Windows/macOS/Linux (Valitse alusta)
+Pelialusta: Windows
 
-Pelaajien lukumäärä: 1/2/3/4 (Valitse pelaajien lukumäärä)
+Pelaajien lukumäärä: 1
 
 ## Pelin tarina
 
 (Pelin tarina.)
 
 ## Pelin idea ja tavoitteet
-
-(Pelin idea ja tavoitteet.)
+tehdä mahdollisimman hienoja temppuja hyppyreistä ja reileistä
 
 ## Hahmotelma pelistä
 
@@ -34,18 +33,18 @@ Pelaajien lukumäärä: 1/2/3/4 (Valitse pelaajien lukumäärä)
 
 Helmikuu
 
-- (Tavoite 1)
-- (Tavoite 2)
-- (Tavoite 3)
+-luoda alustava mappi
+-luoda tyyppi ja alustava liikkuminen
+
 
 Maaliskuu
 
-- (Tavoite 1)
-- (Tavoite 2)
-- (Tavoite 3)
+- lisää mappia 
+- volttien ja muiden tmppujen tekeminen
+- kaatuminen
 
 Jos aikaa jää
 
-- (Tavoite 1)
-- (Tavoite 2)
+- lumi lauta
+- hienompien tempujen teko
 - (Tavoite 3)
