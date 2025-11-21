@@ -27,7 +27,7 @@ tehdä mahdollisimman hienoja temppuja hyppyreistä ja reileistä
 
 (Kun olet lisännyt suunnitelmakuvan tähän hakemistoon, linkitä se tähän alle. Alla on esimerkkikuvan linkitys.)
 
-![Esimerkkikuva](esimerkkikuva.png "Esimerkkikuva")
+![Esimerkkikuva](../ht_kuva.jpg "Esimerkkikuva")
 
 ## Toteutuksen suunnitelma
 
