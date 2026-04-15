@@ -52,4 +52,8 @@ C:\Users\gr313125\OneDrive - Gradia\koulu\ict\tim\laskupeli\laskupeli\obj\Debug\
 C:\Users\gr313125\OneDrive - Gradia\koulu\ict\tim\laskupeli\laskupeli\obj\Debug\net8.0\laskupeli.pdb
 C:\Users\gr313125\OneDrive - Gradia\koulu\ict\tim\laskupeli\laskupeli\obj\Debug\net8.0\laskupeli.genruntimeconfig.cache
 C:\Users\gr313125\OneDrive - Gradia\koulu\ict\tim\laskupeli\laskupeli\obj\Debug\net8.0\ref\laskupeli.dll
-C:\Users\gr313125\OneDrive - Gradia\koulu\ict\tim\laskupeli\laskupeli\bin\Debug\net8.0\Content\laskija.png
+C:\Users\gr313125\OneDrive - Gradia\koulu\ict\tim\laskupeli\laskupeli\obj\Debug\net8.0\laskupeli.sourcelink.json
+C:\Users\gr313125\OneDrive - Gradia\koulu\ict\tim\laskupeli\laskupeli\bin\Debug\net8.0\Content\maasto.png
+C:\Users\gr313125\OneDrive - Gradia\koulu\ict\tim\laskupeli\laskupeli\bin\Debug\net8.0\Content\lauta.png
+C:\Users\gr313125\OneDrive - Gradia\koulu\ict\tim\laskupeli\laskupeli\bin\Debug\net8.0\Content\lumilauta.png
+C:\Users\gr313125\OneDrive - Gradia\koulu\ict\tim\laskupeli\laskupeli\bin\Debug\net8.0\Content\hyppyri.png

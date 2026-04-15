@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("laskupeli")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d51936b5d63b338aea1fc58d63fb1b9276769601")]
 [assembly: System.Reflection.AssemblyProductAttribute("laskupeli")]
 [assembly: System.Reflection.AssemblyTitleAttribute("laskupeli")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

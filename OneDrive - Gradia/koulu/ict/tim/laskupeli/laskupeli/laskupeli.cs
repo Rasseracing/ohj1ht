@@ -5,6 +5,7 @@ using Jypeli.Assets;
 using Jypeli.Controls;
 using Jypeli.Widgets;
 
+
 namespace laskupeli;
 
 /// @author gr313125
@@ -14,10 +15,17 @@ namespace laskupeli;
 /// </summary>
 public class Laskupeli : PhysicsGame
 {
-    private Image _piirroslaskija = LoadImage("laskija");
+    private static Image _piirrosLaskija = LoadImage("lauta.png");
+    private static Shape _laskijanMuoto = Shape.FromImage(_piirrosLaskija);
+    private static Image _lauta = LoadImage("lumilauta.png");
+    private static Shape _lautaMuoto = Shape.FromImage(_lauta);
+    private static Image _hyppykuva = LoadImage("hyppyri");
+
     private PhysicsObject _laskija;
     private double _makiveleys = 4500;
     private double _makikorkeus = 600;
+    private int _makix = -1000;
+    private int _makiy = -300;
     
     public override void Begin()
     {
@@ -29,9 +37,12 @@ public class Laskupeli : PhysicsGame
 
     public void Alusta()
     {
+        IsFullScreen = true;
         ClearAll();
         Luokenttä();
+        //Level.CreateBorders();
         Näppäintoiminnot();
+       
     }
 
     public void Luokenttä()
@@ -60,8 +71,8 @@ public class Laskupeli : PhysicsGame
     public PhysicsObject Luomaki()
     {
         PhysicsObject maki = new PhysicsObject(_makiveleys, _makikorkeus, Shape.Triangle);
-        maki.X = -1000;
-        maki.Y = -300;
+        maki.X = _makix;
+        maki.Y = _makiy;
         maki.IgnoresGravity = true;
         maki.MakeStatic();
         
@@ -71,8 +82,9 @@ public class Laskupeli : PhysicsGame
 
     public PhysicsObject Luolaksija()
     {
-        _laskija  = new PhysicsObject(40,100,Shape.Rectangle);
-        _laskija.Image = _piirroslaskija;
+        _laskija  = new PhysicsObject(50,100);
+        _laskija.Image = _piirrosLaskija;
+        _laskija.Shape = _laskijanMuoto;
         _laskija.Add(Luosukset());
         _laskija.Restitution = 0.5;
         return _laskija;
@@ -81,9 +93,11 @@ public class Laskupeli : PhysicsGame
 
     public PhysicsObject Luosukset()
     {
-        PhysicsObject sukset = new PhysicsObject(60, 10, Shape.Rectangle);
-        sukset.Y = -50;
-        sukset.Color = Color.Black;
+        PhysicsObject sukset = new PhysicsObject(100, 50);
+        sukset.Shape = _lautaMuoto;
+        sukset.Image = _lauta;
+        sukset.Y = -_laskija.Height/4;
+        
         return sukset;
     }
 
@@ -93,32 +107,47 @@ public class Laskupeli : PhysicsGame
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
         Keyboard.Listen(Key.S, ButtonState.Down, _laskija.Push, "hidastaa", new Vector(_laskija.Mass*-300,_laskija.Mass*500));
         Keyboard.Listen(Key.R, ButtonState.Pressed, Alusta, "aloittaa alusta");
-        Keyboard.Listen(Key.A,ButtonState.Down, Laskijakulmava, "kiertää vasemmalle");
-        Keyboard.Listen(Key.D, ButtonState.Down, Laskijakulmaoi, "kiertää oikealle");
-        Keyboard.Listen(Key.W, ButtonState.Down, _laskija.Push, "kiihtyy", new Vector(_laskija.Mass * 100, 0));
+        Keyboard.Listen(Key.A,ButtonState.Down, Laskijakulmava, "kiertää vasemmalle", 1);
+        Keyboard.Listen(Key.D, ButtonState.Down, Laskijakulmava , "kiertää oikealle", -1);
+        Keyboard.Listen(Key.W, ButtonState.Down, _laskija.Push, "kiihtyy", new Vector(_laskija.Mass * 50, 0));
+        Mouse.Listen(MouseButton.Left, ButtonState.Pressed, CreateExplosion, "");
     }
 
-    public void Laskijakulmava()
+    private void CreateExplosion()
     {
-        _laskija.ApplyTorque(0.05);
+        Explosion explosion = new Explosion(500);
+        explosion.Position = Mouse.PositionOnScreen;
+        Add(explosion);
+    }
+
+    public void Laskijakulmava(int kerroin)
+    {
+        _laskija.ApplyTorque(0.01 * kerroin);
         
     }
-    public void Laskijakulmaoi()
+
+    public void valitsehyppyri()
     {
-        _laskija.ApplyTorque(-0.05);
+        List<PhysicsObject> hyppyrit = new List<PhysicsObject>();
+        hyppyrit.Add(_luohyppyri());
         
     }
+ 
     public PhysicsObject _luohyppyri()
     {
-        PhysicsObject hyppyri = new PhysicsObject(100, 50, Shape.Triangle);
-        hyppyri.Color = Color.Gray;
-        hyppyri.X = 350;
-        hyppyri.Y = -340;
+        PhysicsObject hyppyri = new PhysicsObject(RandomGen.NextInt(100,200), RandomGen.NextInt(20,100));
+        hyppyri.Image = _hyppykuva;
+        hyppyri.X = Screen.Right;
+        hyppyri.Y = _makikorkeus;
+        hyppyri.Shape = Shape.FromImage(_hyppykuva);    
+        hyppyri.Mass= double.Max(100,100);
         hyppyri.Angle = Angle.ArcTan(_makikorkeus / (_makiveleys / 2)) + Angle.FromDegrees(330);
-        hyppyri.MakeStatic();
+        hyppyri.Push(new Vector(-1000*hyppyri.Mass,10));
         hyppyri.IgnoresGravity = true;
         return hyppyri;
-
+        
     }
+    
+    
 }
 
