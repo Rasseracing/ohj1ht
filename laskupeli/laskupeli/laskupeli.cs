@@ -22,11 +22,12 @@ public class Laskupeli : PhysicsGame
     private static Image _hyppykuva = LoadImage("hyppyri");
 
     private PhysicsObject _laskija;
-    private double _makiveleys = 4500;
-    private double _makikorkeus = 600;
+    private static double _makiveleys = 4500;
+    private static double _makikorkeus = 600;
     private int _makix = -1000;
     private int _makiy = -300;
-    
+    private PhysicsObject maki;
+
     public override void Begin()
     {
 
@@ -37,7 +38,9 @@ public class Laskupeli : PhysicsGame
 
     public void Alusta()
     {
-        IsFullScreen = true;
+     maki = new PhysicsObject(_makiveleys, _makikorkeus, Shape.Rectangle);
+
+        //IsFullScreen = true;
         ClearAll();
         Luokenttä();
         //Level.CreateBorders();
@@ -51,7 +54,7 @@ public class Laskupeli : PhysicsGame
         Add(Luoaurinko());
         Add(Luomaki());
         Add(Luolaksija());
-        Add(_luohyppyri());
+        Add(luohyppyri());
         Gravity = new Vector(100.0, -681.0);
 
 
@@ -70,10 +73,11 @@ public class Laskupeli : PhysicsGame
 
     public PhysicsObject Luomaki()
     {
-        PhysicsObject maki = new PhysicsObject(_makiveleys, _makikorkeus, Shape.Triangle);
+        
         maki.X = _makix;
         maki.Y = _makiy;
         maki.IgnoresGravity = true;
+        maki.Angle = Angle.FromDegrees(-15);
         maki.MakeStatic();
         
         return maki;
@@ -129,21 +133,23 @@ public class Laskupeli : PhysicsGame
     public void valitsehyppyri()
     {
         List<PhysicsObject> hyppyrit = new List<PhysicsObject>();
-        hyppyrit.Add(_luohyppyri());
+        hyppyrit.Add(luohyppyri());
         
     }
  
-    public PhysicsObject _luohyppyri()
+    public PhysicsObject luohyppyri()
     {
         PhysicsObject hyppyri = new PhysicsObject(RandomGen.NextInt(100,200), RandomGen.NextInt(20,100));
         hyppyri.Image = _hyppykuva;
         hyppyri.X = Screen.Right;
-        hyppyri.Y = _makikorkeus;
+        hyppyri.Y = -505;
         hyppyri.Shape = Shape.FromImage(_hyppykuva);    
         hyppyri.Mass= double.Max(100,100);
-        hyppyri.Angle = Angle.ArcTan(_makikorkeus / (_makiveleys / 2)) + Angle.FromDegrees(330);
-        hyppyri.Push(new Vector(-1000*hyppyri.Mass,10));
+        hyppyri.Angle = maki.Angle;
+        hyppyri.MoveTo(new Vector(-500,-200), 100);
         hyppyri.IgnoresGravity = true;
+        hyppyri.IgnoresCollisionWith(maki);
+        hyppyri.CanRotate = false;
         return hyppyri;
         
     }
