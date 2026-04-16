@@ -27,21 +27,28 @@ public class Laskupeli : PhysicsGame
     private int _makix = -1000;
     private int _makiy = -300;
     private PhysicsObject maki;
+    private PhysicsObject hyppyri;
+    private PhysicsObject este;
+    
 
     public override void Begin()
     {
-
-      Alusta();
-
+        
+        Alusta();
        
+
+
     }
 
     public void Alusta()
     {
-     maki = new PhysicsObject(_makiveleys, _makikorkeus, Shape.Rectangle);
+     
 
         //IsFullScreen = true;
         ClearAll();
+        hyppyri = new PhysicsObject(RandomGen.NextInt(100, 200), RandomGen.NextInt(20, 100));
+        maki = new PhysicsObject(_makiveleys, _makikorkeus, Shape.Rectangle);
+        este = new PhysicsObject(1, 1000);
         Luokenttä();
         //Level.CreateBorders();
         Näppäintoiminnot();
@@ -55,6 +62,7 @@ public class Laskupeli : PhysicsGame
         Add(Luomaki());
         Add(Luolaksija());
         Add(luohyppyri());
+        Add(luoeste());
         Gravity = new Vector(100.0, -681.0);
 
 
@@ -86,10 +94,11 @@ public class Laskupeli : PhysicsGame
 
     public PhysicsObject Luolaksija()
     {
-        _laskija  = new PhysicsObject(50,100);
+        _laskija = new PhysicsObject(50, 100);
         _laskija.Image = _piirrosLaskija;
         _laskija.Shape = _laskijanMuoto;
         _laskija.Add(Luosukset());
+        _laskija.X = Screen.Left+40;
         _laskija.Restitution = 0.5;
         return _laskija;
 
@@ -139,20 +148,38 @@ public class Laskupeli : PhysicsGame
  
     public PhysicsObject luohyppyri()
     {
-        PhysicsObject hyppyri = new PhysicsObject(RandomGen.NextInt(100,200), RandomGen.NextInt(20,100));
+        
         hyppyri.Image = _hyppykuva;
         hyppyri.X = Screen.Right;
         hyppyri.Y = -505;
         hyppyri.Shape = Shape.FromImage(_hyppykuva);    
         hyppyri.Mass= double.Max(100,100);
         hyppyri.Angle = maki.Angle;
-        hyppyri.MoveTo(new Vector(-500,-200), 100);
+        hyppyri.MoveTo(new Vector(-1000,-200), 100);
         hyppyri.IgnoresGravity = true;
         hyppyri.IgnoresCollisionWith(maki);
         hyppyri.CanRotate = false;
         return hyppyri;
         
     }
+
+    public PhysicsObject luoeste()
+    {
+        este.X = Screen.Left;
+        este.MakeStatic();
+        este.IgnoresCollisionWith(_laskija);
+        return este;
+    }
+
+   
+    public void hyppyrinpoisto()
+    {
+       
+
+
+    }
+    
+
     
     
 }
