@@ -65,8 +65,12 @@ public class Laskupeli : PhysicsGame
         Add(luohyppyri());
         Add(luoeste());
         Gravity = new Vector(100.0, -681.0);
+<<<<<<< HEAD
         AddCollisionHandler(este, _hyppyri, hyppyrinpoisto);
 
+=======
+        AddCollisionHandler(este,hyppyri, hyppyrinpoisto);
+>>>>>>> 709d496c16c099f408878ecfac1fda941431d2ad
 
 
         
@@ -185,6 +189,10 @@ public class Laskupeli : PhysicsGame
    
     public void hyppyrinpoisto(PhysicsObject tormaaja, PhysicsObject kohde)
     {
+<<<<<<< HEAD
+=======
+       Remove(hyppyri);
+>>>>>>> 709d496c16c099f408878ecfac1fda941431d2ad
 
         kohde.Destroy();
         Add(luohyppyri());
