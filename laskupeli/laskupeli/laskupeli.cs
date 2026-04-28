@@ -20,6 +20,7 @@ public class Laskupeli : PhysicsGame
     private static Image _lauta = LoadImage("lumilauta.png");
     private static Shape _lautaMuoto = Shape.FromImage(_lauta);
     private static Image _hyppykuva = LoadImage("hyppyri");
+    private static Shape _hyppymuoto = Shape.FromImage(_hyppykuva);
 
     private PhysicsObject _laskija;
     private static double _makiveleys = 4500;
@@ -27,7 +28,7 @@ public class Laskupeli : PhysicsGame
     private int _makix = -1000;
     private int _makiy = -300;
     private PhysicsObject maki;
-    private PhysicsObject hyppyri;
+    private PhysicsObject _hyppyri;
     private PhysicsObject este;
     
 
@@ -46,7 +47,7 @@ public class Laskupeli : PhysicsGame
 
         //IsFullScreen = true;
         ClearAll();
-        hyppyri = new PhysicsObject(RandomGen.NextInt(100, 200), RandomGen.NextInt(20, 100));
+        
         maki = new PhysicsObject(_makiveleys, _makikorkeus, Shape.Rectangle);
         este = new PhysicsObject(1, 1000);
         Luokenttä();
@@ -64,6 +65,8 @@ public class Laskupeli : PhysicsGame
         Add(luohyppyri());
         Add(luoeste());
         Gravity = new Vector(100.0, -681.0);
+        AddCollisionHandler(este, _hyppyri, hyppyrinpoisto);
+
 
 
         
@@ -143,22 +146,30 @@ public class Laskupeli : PhysicsGame
     {
         List<PhysicsObject> hyppyrit = new List<PhysicsObject>();
         hyppyrit.Add(luohyppyri());
+      
+            Add(hyppyrit[RandomGen.NextInt(10)]);
+            
+        
+
+       
         
     }
  
     public PhysicsObject luohyppyri()
     {
+        PhysicsObject hyppyri = new PhysicsObject(RandomGen.NextInt(100, 200), RandomGen.NextInt(20, 100));
         
         hyppyri.Image = _hyppykuva;
         hyppyri.X = Screen.Right;
         hyppyri.Y = -505;
-        hyppyri.Shape = Shape.FromImage(_hyppykuva);    
+        hyppyri.Shape = _hyppymuoto;
         hyppyri.Mass= double.Max(100,100);
         hyppyri.Angle = maki.Angle;
-        hyppyri.MoveTo(new Vector(-1000,-200), 100);
+        hyppyri.MoveTo(new Vector(-1500,-200), 100);
         hyppyri.IgnoresGravity = true;
         hyppyri.IgnoresCollisionWith(maki);
         hyppyri.CanRotate = false;
+        _hyppyri = hyppyri;
         return hyppyri;
         
     }
@@ -172,15 +183,14 @@ public class Laskupeli : PhysicsGame
     }
 
    
-    public void hyppyrinpoisto()
+    public void hyppyrinpoisto(PhysicsObject tormaaja, PhysicsObject kohde)
     {
-       
 
+        kohde.Destroy();
+        Add(luohyppyri());
+        
 
     }
-    
-
-    
+   
     
 }
-
