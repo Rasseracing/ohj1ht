@@ -145,22 +145,11 @@ public class Laskupeli : PhysicsGame
         
     }
 
-    public void Valitsehyppyri()
-    {
-        List<PhysicsObject> hyppyrit = new List<PhysicsObject>();
-        hyppyrit.Add(Luohyppyri());
-      
-            Add(hyppyrit[RandomGen.NextInt(10)]);
-            
-        
 
-       
-        
-    }
  
     public PhysicsObject Luohyppyri()
     {
-        PhysicsObject hyppyri = new PhysicsObject(RandomGen.NextInt(100, 200), RandomGen.NextInt(20, 100));
+        PhysicsObject hyppyri = new PhysicsObject(Hyppyrikoot(RandomGen.NextInt(6)), Hyppyrikoot(RandomGen.NextInt(8)-2));
         
         hyppyri.Image = _hyppykuva;
         hyppyri.X = Screen.Right;
@@ -168,10 +157,11 @@ public class Laskupeli : PhysicsGame
         hyppyri.Shape = _hyppymuoto;
         hyppyri.Mass= double.Max(100,100);
         hyppyri.Angle = _maki.Angle;
-        hyppyri.MoveTo(new Vector(-1500,-200), 100);
+        hyppyri.MoveTo(new Vector(-1500,168), 100);
         hyppyri.IgnoresGravity = true;
         hyppyri.IgnoresCollisionWith(_maki);
         hyppyri.CanRotate = false;
+       // hyppyri.Push(new Vector(-500,100));
         _hyppyri = hyppyri;
         return hyppyri;
         
@@ -188,15 +178,25 @@ public class Laskupeli : PhysicsGame
    
     public void Hyppyrinpoisto(PhysicsObject tormaaja, PhysicsObject kohde)
     {
-
-       
-
-
+        
         kohde.Destroy();
         Add(Luohyppyri());
         
 
     }
-   
+
+    public int Hyppyrikoot(int valinta)
+    {
+        List<int> koot = new List<int>();
+        koot.Add(35);
+        koot.Add(40);
+        koot.Add(50);
+        koot.Add(60);
+        koot.Add(70);
+        koot.Add(80);
+        koot.Add(90);
+        koot.Add(100);
+        return koot[valinta];
+    }
     
 }
