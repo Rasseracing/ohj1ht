@@ -30,6 +30,8 @@ public class Laskupeli : PhysicsGame
     private PhysicsObject _maki;
     private PhysicsObject _hyppyri;
     private PhysicsObject _este;
+    private double _pyoriminen = 0;
+    private double _edellinenKulma = 0;
     
 
     public override void Begin()
@@ -40,12 +42,14 @@ public class Laskupeli : PhysicsGame
 
 
     }
-
+/// <summary>
+/// aloittaa pelin uudelleen jolloin tekee perus asiat.
+/// </summary>
     public void Alusta()
     {
      
 
-        //IsFullScreen = true;
+        IsFullScreen = true;
         ClearAll();
         
         _maki = new PhysicsObject(_makiveleys, _makikorkeus, Shape.Rectangle);
@@ -53,9 +57,15 @@ public class Laskupeli : PhysicsGame
         Luokenttä();
         //Level.CreateBorders();
         Näppäintoiminnot();
-       
-    }
 
+        Timer chekki = new Timer(0.1);
+        chekki.Timeout += Ilotulitteet;
+        chekki.Start();
+
+    }
+/// <summary>
+/// lisää peliin objektit, kute mäen ja laskijan ja hyppyrin.
+/// </summary>
     public void Luokenttä()
     {
         
@@ -74,6 +84,10 @@ public class Laskupeli : PhysicsGame
 
         
     }
+/// <summary>
+/// tekee auringon
+/// </summary>
+/// <returns>auringon</returns>
     public PhysicsObject Luoaurinko()
     {
         PhysicsObject aurinko = new PhysicsObject(100, 100, Shape.Circle);
@@ -84,7 +98,10 @@ public class Laskupeli : PhysicsGame
         return aurinko;
         
     }
-
+/// <summary>
+/// tekee laskettavan mäen eli pohjan
+/// </summary>
+/// <returns>mäen</returns>
     public PhysicsObject Luomaki()
     {
         
@@ -97,7 +114,10 @@ public class Laskupeli : PhysicsGame
         return _maki;
 
     }
-
+/// <summary>
+/// tekee laskijan laskijan muoden, paikan ja fysiikan sekä lisää sukset sille
+/// </summary>
+/// <returns>laskija</returns>
     public PhysicsObject Luolaksija()
     {
         _laskija = new PhysicsObject(50, 100);
@@ -109,7 +129,10 @@ public class Laskupeli : PhysicsGame
         return _laskija;
 
     }
-
+/// <summary>
+/// tekee sukset
+/// </summary>
+/// <returns>sukset</returns>
     public PhysicsObject Luosukset()
     {
         PhysicsObject sukset = new PhysicsObject(100, 50);
@@ -119,7 +142,9 @@ public class Laskupeli : PhysicsGame
         
         return sukset;
     }
-
+/// <summary>
+/// tekee kaikki mitä tapahtuu kun painettan näppäintä
+/// </summary>
     public void Näppäintoiminnot()
     {
         PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
@@ -131,14 +156,19 @@ public class Laskupeli : PhysicsGame
         Keyboard.Listen(Key.W, ButtonState.Down, _laskija.Push, "kiihtyy", new Vector(_laskija.Mass * 50, 0));
         Mouse.Listen(MouseButton.Left, ButtonState.Pressed, CreateExplosion, "");
     }
-
+/// <summary>
+/// tekee hauskan räjähdyksen
+/// </summary>
     private void CreateExplosion()
     {
         Explosion explosion = new Explosion(500);
         explosion.Position = Mouse.PositionOnScreen;
         Add(explosion);
     }
-
+/// <summary>
+/// kääntää laskijaa
+/// </summary>
+/// <param name="kerroin"> kertoo kumpaan suuntaan laskija kääntyy</param>
     public void Laskijakulmava(int kerroin)
     {
         _laskija.ApplyTorque(0.01 * kerroin);
@@ -146,10 +176,13 @@ public class Laskupeli : PhysicsGame
     }
 
 
- 
+ /// <summary>
+ /// hyppyrin paikka ja liike
+ /// </summary>
+ /// <returns>palauttaa hyppyrin</returns>
     public PhysicsObject Luohyppyri()
     {
-        PhysicsObject hyppyri = new PhysicsObject(Hyppyrikoot(RandomGen.NextInt(6)), Hyppyrikoot(RandomGen.NextInt(8)-2));
+        PhysicsObject hyppyri = new PhysicsObject(Hyppyrikoot(RandomGen.NextInt(8)), Hyppyrikoot(RandomGen.NextInt(0,6)));
         
         hyppyri.Image = _hyppykuva;
         hyppyri.X = Screen.Right;
@@ -161,12 +194,15 @@ public class Laskupeli : PhysicsGame
         hyppyri.IgnoresGravity = true;
         hyppyri.IgnoresCollisionWith(_maki);
         hyppyri.CanRotate = false;
-       // hyppyri.Push(new Vector(-500,100));
+
         _hyppyri = hyppyri;
         return hyppyri;
         
     }
-
+/// <summary>
+/// tekee esteen vasempaan reunaan jolla resettaan hyppyrin
+/// </summary>
+/// <returns> päätöpisteen</returns>
     public PhysicsObject Luoeste()
     {
         _este.X = Screen.Left;
@@ -198,5 +234,58 @@ public class Laskupeli : PhysicsGame
         koot.Add(100);
         return koot[valinta];
     }
-    
+
+    public void Ilotulitteet()
+    {
+     
+        
+            
+            double nykyinenKulma = _laskija.Angle.Degrees;
+
+            double muutos = nykyinenKulma - _edellinenKulma;
+
+        
+            if (muutos > 180) muutos -= 360;
+            if (muutos < -180) muutos += 360;
+
+            _pyoriminen += muutos;
+
+            
+            if (_pyoriminen <= -360)
+            {
+                MessageDisplay.Add("voltti");
+                
+                for (int i = 0; i < 10; i++)
+                {
+                    Explosion ilotulitus = new Explosion(10);
+                    ilotulitus.X = RandomGen.NextInt(-600, 600);
+                    ilotulitus.Y = RandomGen.NextInt(-300, 400);
+                    ilotulitus.Force = 0;
+                
+                    Add(ilotulitus);
+                
+                
+                }
+                _pyoriminen = 0;
+                
+            }
+            if (_pyoriminen >= 360)
+            {
+                MessageDisplay.Add("päkkäri");
+                for (int i = 0; i < 10; i++)
+                {
+                    Explosion ilotulitus = new Explosion(10);
+                    ilotulitus.X = RandomGen.NextInt(-600, 600);
+                    ilotulitus.Y = RandomGen.NextInt(-300, 400);
+                    ilotulitus.Force = 0;
+                
+                    Add(ilotulitus);
+                
+                
+                }
+                _pyoriminen = 0;
+            }
+            _edellinenKulma = nykyinenKulma;
+        
+    }
 }
