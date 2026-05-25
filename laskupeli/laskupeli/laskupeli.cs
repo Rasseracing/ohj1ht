@@ -58,7 +58,7 @@ public class Laskupeli : PhysicsGame
         //Level.CreateBorders();
         Näppäintoiminnot();
 
-        Timer chekki = new Timer(0.1);
+        Timer chekki = new Timer(0.5);
         chekki.Timeout += Ilotulitteet;
         chekki.Start();
 
@@ -211,7 +211,11 @@ public class Laskupeli : PhysicsGame
         return _este;
     }
 
-   
+   /// <summary>
+   /// poistaa hyppyrin ja tekee uuden
+   /// </summary>
+   /// <param name="tormaaja">ei tee mitään</param>
+   /// <param name="kohde">sama kuin hyppyri</param>
     public void Hyppyrinpoisto(PhysicsObject tormaaja, PhysicsObject kohde)
     {
         
@@ -220,7 +224,11 @@ public class Laskupeli : PhysicsGame
         
 
     }
-
+/// <summary>
+/// lista jossa on mahdollisisa hyppyrin kokoja
+/// </summary>
+/// <param name="valinta">mink kohdan listasta palautetaa</param>
+/// <returns> luku joka on hyppyrin koko</returns>
     public int Hyppyrikoot(int valinta)
     {
         List<int> koot = new List<int>();
@@ -234,7 +242,9 @@ public class Laskupeli : PhysicsGame
         koot.Add(100);
         return koot[valinta];
     }
-
+/// <summary>
+/// jos lause jolla katson tekeekö laskija voltin tai päkkärin ja sitten tekee ilotulitteen peliin
+/// </summary>
     public void Ilotulitteet()
     {
      
